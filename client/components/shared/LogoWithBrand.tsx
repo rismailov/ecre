@@ -26,6 +26,7 @@ export const LogoWithBrand = ({
                 src="/logo/logo-horizontal.svg"
                 layout="fill"
                 objectFit="cover"
+                alt="Logotype"
             ></Image>
         </UnstyledButton>
     </Link>

@@ -1,15 +1,14 @@
-import { ReactElement, useContext } from 'react'
-import { Button, PasswordInput, Stack, TextInput } from '@mantine/core'
+import { ReactElement } from 'react'
+import { PasswordInput, Stack, TextInput } from '@mantine/core'
 import { useForm, yupResolver } from '@mantine/form'
 import { useFocusTrap } from '@mantine/hooks'
-import AppLayout from '@/layouts/AppLayout'
 import AuthLayout from '@/layouts/AuthLayout'
 import type { RegisterFormValues } from '@/ts/types/forms/auth'
 import { useAuth } from '@/hooks/useAuth'
 import * as Yup from 'yup'
 import { AuthSubmitButton } from '@/components/auth/AuthSubmitButton'
 
-export default function register() {
+export default function Register() {
     const { register, formBusy } = useAuth({ middleware: 'guest' })
     const focusTrapRef = useFocusTrap()
 
@@ -76,9 +75,8 @@ export default function register() {
     )
 }
 
-register.getLayout = function getLayout(page: ReactElement) {
+Register.getLayout = function getLayout(page: ReactElement) {
     return (
-        // <AppLayout>
         <AuthLayout
             title="Create your account for free"
             oppositeComponentDesc="sign in to your account"
@@ -86,6 +84,5 @@ register.getLayout = function getLayout(page: ReactElement) {
         >
             {page}
         </AuthLayout>
-        // </AppLayout>
     )
 }

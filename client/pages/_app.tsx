@@ -8,6 +8,7 @@ import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
 import { QueryClientProvider, QueryClient } from 'react-query'
+import { NotificationsProvider } from '@mantine/notifications'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { providerStyles } from '@/services/mantine/providerStyles'
 import { LoaderContext } from '@/context/LoaderContext'
@@ -28,7 +29,16 @@ export default function App({
     /* https://nextjs.org/docs/basic-features/layouts#per-page-layouts */
     const getLayout = Component.getLayout || ((page) => page)
 
-    const [queryClient] = useState(() => new QueryClient())
+    const [queryClient] = useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        retry: false,
+                    },
+                },
+            }),
+    )
 
     const [colorScheme, setColorScheme] = useState<ColorScheme>(colorSchemeProp)
     const toggleColorScheme = (value?: ColorScheme) => {
@@ -41,21 +51,20 @@ export default function App({
 
     // page loader
     const [isLoading, setIsLoading] = useState(false)
-    // const onRouteChangeStart = () => setIsLoading(true)
-    const onRouteChangeComplete = () => setIsLoading(false)
     const router = useRouter()
 
     useEffect(() => {
-        // router.events.on('routeChangeStart', onRouteChangeStart)
+        const onRouteChangeError = () => setIsLoading(false)
+        const onRouteChangeComplete = () => setIsLoading(false)
+
         router.events.on('routeChangeComplete', onRouteChangeComplete)
-        router.events.on('routeChangeError', onRouteChangeComplete)
+        router.events.on('routeChangeError', onRouteChangeError)
 
         return () => {
-            // router.events.off('routeChangeStart', onRouteChangeStart)
             router.events.off('routeChangeComplete', onRouteChangeComplete)
             router.events.off('routeChangeError', onRouteChangeComplete)
         }
-    }, [])
+    }, [router.events])
 
     return (
         <>
@@ -94,18 +103,22 @@ export default function App({
                         Divider: {
                             sx: { opacity: '0.5' },
                         },
+                        ActionIcon: {
+                            loaderProps: { variant: 'oval' },
+                        },
                     }}
                     styles={providerStyles}
                 >
-                    <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
-                        <LoadingOverlay visible={isLoading} />
+                    <NotificationsProvider>
+                        <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
+                            <LoadingOverlay visible={isLoading} />
 
-                        <QueryClientProvider client={queryClient}>
-                            {getLayout(<Component {...pageProps} />)}
-
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        </QueryClientProvider>
-                    </LoaderContext.Provider>
+                            <QueryClientProvider client={queryClient}>
+                                {getLayout(<Component {...pageProps} />)}
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            </QueryClientProvider>
+                        </LoaderContext.Provider>
+                    </NotificationsProvider>
                 </MantineProvider>
             </ColorSchemeProvider>
         </>

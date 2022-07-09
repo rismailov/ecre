@@ -9,6 +9,7 @@ import {
     Stack,
     Container,
     Box,
+    Anchor,
 } from '@mantine/core'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -21,25 +22,12 @@ interface AuthLayoutProps {
     oppositeComponentDesc: string
 }
 
-const useStyles = createStyles((theme) => ({
-    card: {
-        width: '100%',
-        maxWidth: '25rem',
-        backgroundColor:
-            theme.colorScheme === 'light'
-                ? 'transparent'
-                : theme.fn.darken(theme.colors.dark[6], 0.1),
-    },
-}))
-
 export default function AuthLayout({
     children,
     title = 'Title',
     oppositeComponentHref,
     oppositeComponentDesc,
 }: AuthLayoutProps) {
-    const { classes } = useStyles()
-
     return (
         <Grid grow gutter={0} columns={13} style={{ height: '100vh' }}>
             <Grid.Col
@@ -55,7 +43,10 @@ export default function AuthLayout({
                         <Stack>
                             <LogoWithBrand size="md" />
 
-                            <Title order={1} sx={{ lineHeight: 1, marginBottom: 75 }}>
+                            <Title
+                                order={1}
+                                sx={{ marginTop: 20, lineHeight: 1, marginBottom: 75 }}
+                            >
                                 <Text inherit color="dimmed">
                                     Discover the world’s top Designers & Creatives.
                                 </Text>
@@ -86,10 +77,15 @@ export default function AuthLayout({
                                     right: '1rem',
                                 }}
                             >
-                                * Image taken from{' '}
-                                <Text component="span" inherit color="blue">
+                                * Illustration taken from{' '}
+                                <Anchor
+                                    href="https://manypixels.co"
+                                    target="_blank"
+                                    color="blue"
+                                    size="xs"
+                                >
                                     https://manypixels.co
-                                </Text>
+                                </Anchor>
                             </Text>
                         </Stack>
                     </Center>
@@ -131,7 +127,7 @@ export default function AuthLayout({
                         radius="md"
                         p="xl"
                         mt="sm"
-                        className={classes.card}
+                        sx={(theme) => ({ maxWidth: theme.breakpoints.xs / 1.25 })}
                     >
                         {children}
                     </Card>

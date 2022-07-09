@@ -74,53 +74,58 @@ export const Header = () => {
                         />
 
                         {user && (
-                            <Menu
-                                control={
-                                    <Button
-                                        variant="light"
-                                        rightIcon={<ChevronDown size={17} />}
-                                        sx={{
-                                            ':active': {
-                                                transform: 'translateY(0) !important',
-                                            },
-                                        }}
+                            <>
+                                <Menu
+                                    control={
+                                        <Button
+                                            variant="light"
+                                            rightIcon={<ChevronDown size={17} />}
+                                            sx={{
+                                                ':active': {
+                                                    transform: 'translateY(0) !important',
+                                                },
+                                            }}
+                                        >
+                                            {user.fullName}
+                                        </Button>
+                                    }
+                                    transition={slideDown}
+                                    styles={{
+                                        itemLabel: {
+                                            fontSize: '0.8rem',
+                                            fontWeight: 500,
+                                        },
+                                    }}
+                                >
+                                    {/* section */}
+                                    <Menu.Label>Application</Menu.Label>
+                                    <Menu.Item
+                                        component={NextLink}
+                                        href="/dashboard"
+                                        icon={<User size={17} />}
                                     >
-                                        {user.fullName}
-                                    </Button>
-                                }
-                                transition={slideDown}
-                                styles={{
-                                    itemLabel: { fontSize: '0.8rem', fontWeight: 500 },
-                                }}
-                            >
-                                {/* section */}
-                                <Menu.Label>Application</Menu.Label>
-                                <Menu.Item
-                                    component={NextLink}
-                                    href="/dashboard"
-                                    icon={<User size={17} />}
-                                >
-                                    Dashboard
-                                </Menu.Item>
-                                <Menu.Item
-                                    component={NextLink}
-                                    href="/dashboard/profile"
-                                    icon={<Edit size={17} />}
-                                >
-                                    Profile
-                                </Menu.Item>
-                                <Divider />
+                                        Dashboard
+                                    </Menu.Item>
+                                    <Menu.Item
+                                        component={NextLink}
+                                        href="/dashboard/profile"
+                                        icon={<Edit size={17} />}
+                                    >
+                                        Profile
+                                    </Menu.Item>
+                                    <Divider />
 
-                                {/* section */}
-                                <Menu.Label>Danger zone</Menu.Label>
-                                <Menu.Item
-                                    color="red"
-                                    onClick={() => logout()}
-                                    icon={<Logout size={17} />}
-                                >
-                                    Logout
-                                </Menu.Item>
-                            </Menu>
+                                    {/* section */}
+                                    <Menu.Label>Danger zone</Menu.Label>
+                                    <Menu.Item
+                                        color="red"
+                                        onClick={() => logout()}
+                                        icon={<Logout size={17} />}
+                                    >
+                                        Logout
+                                    </Menu.Item>
+                                </Menu>
+                            </>
                         )}
 
                         {!user && (
@@ -158,6 +163,14 @@ export const Header = () => {
                         <ActionIcon size="lg" sx={sxShared.actionButton}>
                             <ShoppingCart size={18} />
                         </ActionIcon>
+
+                        <Divider
+                            orientation="vertical"
+                            className={classes.divider}
+                            sx={sxShared.divider}
+                        />
+
+                        <Link href="/admin">Admin dahsboard</Link>
                     </Group>
                 </Group>
             </Container>

@@ -1,4 +1,4 @@
-import Header from '@/components/shared/Header'
+import { Header } from '@/components/shared/Header'
 import { Box } from '@mantine/core'
 import React from 'react'
 

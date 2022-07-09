@@ -6,10 +6,10 @@ import { useQuery, useQueryClient } from 'react-query'
 import { LoginFormValues, RegisterFormValues } from '@/ts/types/forms/auth'
 import { getUser, loginUser, logoutUser, registerUser } from '@/api/auth'
 import { useLoaderContext } from '@/context/LoaderContext'
+import { RQ_AUTH_KEY } from '@/lib/constants/react-query-cache-keys'
 
-export const DASHBOARD_ROUTE = '/dashboard'
-export const AUTH_ROUTE = '/auth/login'
-export const AUTH_QUERY_CACHE_KEY = 'user'
+const DASHBOARD_ROUTE = '/dashboard'
+const AUTH_ROUTE = '/auth/login'
 
 export const useAuth = ({
     middleware,
@@ -24,9 +24,7 @@ export const useAuth = ({
         isLoading: userLoading,
         error,
         isError,
-    } = useQuery(AUTH_QUERY_CACHE_KEY, getUser, {
-        retry: false,
-    })
+    } = useQuery(RQ_AUTH_KEY, getUser)
 
     const login = async ({
         form,
@@ -41,7 +39,7 @@ export const useAuth = ({
         try {
             await loginUser(formValues)
 
-            queryClient.invalidateQueries(AUTH_QUERY_CACHE_KEY)
+            queryClient.invalidateQueries(RQ_AUTH_KEY)
             setIsLoading(true)
             setFormBusy(false)
         } catch (e) {
@@ -63,7 +61,7 @@ export const useAuth = ({
         try {
             await registerUser(formValues)
 
-            queryClient.invalidateQueries(AUTH_QUERY_CACHE_KEY)
+            queryClient.invalidateQueries(RQ_AUTH_KEY)
             setIsLoading(true)
             setFormBusy(false)
         } catch (e: any) {
@@ -75,7 +73,7 @@ export const useAuth = ({
     const logout = async () => {
         await logoutUser()
 
-        queryClient.resetQueries(AUTH_QUERY_CACHE_KEY)
+        queryClient.resetQueries(RQ_AUTH_KEY)
     }
 
     useEffect(() => {
@@ -95,6 +93,5 @@ export const useAuth = ({
         logout,
         formBusy,
         userLoading,
-        AUTH_QUERY_CACHE_KEY,
     }
 }

@@ -6,6 +6,15 @@ export const providerStyles: MantineProviderProps['styles'] = {
             height: '100%',
         },
     },
+    Card: (theme) => ({
+        root: {
+            width: '100%',
+            backgroundColor:
+                theme.colorScheme === 'light'
+                    ? 'transparent'
+                    : theme.fn.darken(theme.colors.dark[6], 0.1),
+        },
+    }),
     Title: (theme) => ({
         root: {
             color:
@@ -24,6 +33,15 @@ export const providerStyles: MantineProviderProps['styles'] = {
         },
     }),
     TextInput: (theme) => ({
+        input: {
+            paddingTop: 17,
+            paddingBottom: 17,
+            '&:focus-within': {
+                boxShadow: `0 0 0 0.05rem ${theme.colors.red[6]}`,
+            },
+        },
+    }),
+    NumberInput: (theme) => ({
         input: {
             paddingTop: 17,
             paddingBottom: 17,

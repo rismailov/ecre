@@ -1,15 +1,13 @@
-import { ReactElement, useState } from 'react'
-import { Button, PasswordInput, Stack, TextInput } from '@mantine/core'
+import { ReactElement } from 'react'
+import { PasswordInput, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useFocusTrap } from '@mantine/hooks'
 import AuthLayout from '@/layouts/AuthLayout'
-import AppLayout from '@/layouts/AppLayout'
-import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/useAuth'
 import { LoginFormValues } from '@/ts/types/forms/auth'
 import { AuthSubmitButton } from '@/components/auth/AuthSubmitButton'
 
-export default function login() {
+export default function Login() {
     const focusTrapRef = useFocusTrap()
     const { login: onLogin, formBusy } = useAuth({ middleware: 'guest' })
 
@@ -52,7 +50,7 @@ export default function login() {
     )
 }
 
-login.getLayout = function getLayout(page: ReactElement) {
+Login.getLayout = function getLayout(page: ReactElement) {
     return (
         <AuthLayout
             title="Sign in to your account"
